@@ -1,0 +1,122 @@
+# PrivyTools — Privacy-First PDF, Image & Document Tools
+
+> **Free online PDF tools, image converters, and privacy utilities that run 100% in your browser. No uploads. No accounts. No tracking.**
+
+PrivyTools is a **privacy-first file toolkit**: combine, compress, convert, and clean PDFs and images entirely on your device. Files never leave your computer — everything is processed locally with WebCrypto, Canvas, and `pdf-lib`/`jszip` engines. Compress PDFs, remove EXIF/GPS metadata, convert JPG↔PNG↔WebP, clean hidden data, and more — all offline-capable.
+
+> **Privacy promise:** zero server uploads, end-to-end local processing, installable PWA that works offline.
+
+**Keywords:** online PDF tools, merge PDF, compress PDF, PDF converter, image compressor, convert PNG to JPG, WebP converter, EXIF remover, remove GPS metadata, PDF metadata cleaner, batch image converter, privacy tools, client-side file tools, offline PDF editor, React PWA.
+
+![PWA](https://img.shields.io/badge/PWA-Installable-0f172a)
+![Stack](https://img.shields.io/badge/React%2019%20%7C%20Vite%206%20%7C%20TypeScript%20%7C%20Tailwind%204-0f172a)
+![Bundle](https://img.shields.io/badge/bun-0f172a)
+
+## Features
+
+**73 tools across five categories**, plus an installable, offline-capable PWA.
+
+### PDF (26 tools)
+- Merge, split, compress (Lossless / Visually-Lossless / Balanced / Compact presets)
+- Rotate, reorder, delete, extract, and duplicate pages
+- Add watermarks, page numbers, headers & footers
+- Image → PDF (JPG / PNG / WebP), text/Markdown → PDF
+- Metadata editor & cleaner, PDF info inspector
+- AES-256 password protection *(coming soon)*
+
+### Image (19 tools)
+- Compression (JPG / PNG / WebP) with quality presets
+- Resize, crop, rotate, flip, format conversion (JPG / PNG / WebP / BMP)
+- Brightness & contrast, grayscale, DPI changer, screenshot optimizer
+- Batch compression & batch format conversion to ZIP
+
+### Privacy (13 tools) — the differentiator
+- **Privacy scanner**: binary scan for GPS, camera model, software, timestamps, PDF author; 0–100 privacy score
+- **EXIF viewer & remover**, GPS remover, image metadata cleaner
+- **File hash generator**: SHA-256 / SHA-512 / SHA-1 / MD5 (WebCrypto + local MD5)
+- Filename privacy cleaner, temporary-file cleaner
+- File type detector (magic-byte inspection to catch spoofed extensions)
+
+### Document (7 tools)
+- Text → PDF, Markdown → PDF, CSV / JSON / HTML → PDF
+- OCR (image → text), PDF → text extraction
+
+### Utility (8 tools)
+- QR generator, Base64 encode/decode, duplicate-file finder
+- Batch rename, file-size analyzer, MIME detector
+
+### App-level features
+- **Privacy Center**: scan a file, get a privacy score + findings, then "Clean Everything" (metadata wipe, EXIF/GPS strip, filename anonymize) and download
+- **Batch Queue**: queued / processing / completed / error states with progress bars
+- **Local History**: last 50 records with file counts and bytes-saved stats
+- Global `/` search palette + file-aware tool suggestions after a drop
+- Favorites, dark mode, local-first Settings (local-only mode, auto session purge)
+- **PWA / Android install**: WebAPK prompt, PWABuilder walkthrough, downloadable Capacitor bundle
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| UI | React 19, TypeScript, Tailwind CSS 4 |
+| Build | Vite 6 (+ `@vitejs/plugin-react`, `@tailwindcss/vite`) |
+| Engines | `pdf-lib`, `jszip`, Canvas API, WebCrypto |
+| PWA | `vite-plugin-pwa` (auto-update + offline Workbox caching) |
+| Icons | `lucide-react` |
+| Package manager | **bun** (`bun.lock`) |
+
+## Getting Started
+
+```bash
+bun install        # or: npm install
+bun run dev        # Vite dev server → http://localhost:3000
+bun run build      # production build → dist/
+bun run preview    # preview the production build
+bun run lint       # type-check (tsc --noEmit)
+```
+
+> `clean` removes `dist/` and any generated `server.js`.
+
+## Environment Variables
+
+See `.env.example`:
+
+| Variable | Purpose |
+|---|---|
+| `GEMINI_API_KEY` | Gemini AI API key — injected at runtime by AI Studio from user secrets |
+| `APP_URL` | Public URL of the hosted app — injected at runtime with the Cloud Run/Deployment service URL |
+
+Configure via the **Secrets panel** in the AI Studio UI. The key is used **server-side only** and never shipped to the client.
+
+## Project Structure
+
+```
+.
+├── src/
+│   ├── main.tsx / App.tsx      # Entry point + root shell (state-driven navigation)
+│   ├── data/tools.ts           # Registry of all 73 tools + categories
+│   ├── engines/                # Pure processing logic (no UI)
+│   │   ├── pdfEngine.ts        #   pdf-lib operations
+│   │   ├── imageEngine.ts      #   Canvas-based image ops
+│   │   ├── privacyEngine.ts    #   Hashing, privacy scan, filename sanitize
+│   │   └── utilityEngine.ts    #   Base64, duplicates, QR, magic-byte
+│   ├── hooks/                  # usePWAInstall, useOnlineStatus
+│   └── components/             # ToolExecutor, drop zones, modals, nav
+├── public/                     # PWA icons (generated by scripts/generate-icons.js)
+├── scripts/generate-icons.js   # Zero-dependency PWA icon generator
+├── vite.config.ts              # Vite + Tailwind + PWA config
+└── metadata.json               # AI Studio applet manifest
+```
+
+## Deployment
+
+PrivyTools ships as an **AI Studio applet** (see `metadata.json`). Assets are served from the built `dist/` and interface with Gemini server-side — the `MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API` capability and `server.js` (Express proxy) are part of the AI Studio scaffold. Dev server binds `0.0.0.0:3000` for container/Cloud Run friendliness.
+
+## Roadmap
+
+- OCR (image → text) and real QR encoding/decoding
+- Page-level tools (reorder, delete, extract, duplicate) with true engine logic
+- Full wiring of the server-side Gemini proxy (Express + `@google/genai`)
+
+## License
+
+Private project — all processing is local and no data ever leaves the browser.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="128" fill="#0F172A"/>
+  <path d="M256 96L144 144V260C144 336 192 404 256 424C320 404 368 336 368 260V144L256 96Z" fill="url(#emeraldGrad)"/>
+  <path d="M224 240V216C224 198.327 238.327 184 256 184C273.673 184 288 198.327 288 216V240M208 240H304C312.837 240 320 247.163 320 256V320C320 328.837 312.837 336 304 336H208C199.163 336 192 328.837 192 320V256C192 247.163 199.163 240 208 240Z" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs>
+    <linearGradient id="emeraldGrad" x1="144" y1="96" x2="368" y2="424" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+</svg>

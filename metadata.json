@@ -1,0 +1,8 @@
+{
+  "name": "PrivyTools",
+  "description": "Privacy-first PDF, image, and document utility suite with 100% local client-side processing, zero server uploads, and comprehensive batch tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
